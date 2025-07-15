@@ -6,7 +6,7 @@ import os
 import re
 from dotenv import load_dotenv
 from datetime import datetime
-from Summary import fetch_and_store_user_data, generate_persona
+from persona_generator import fetch_and_store_user_data, generate_persona
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
