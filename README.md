@@ -121,7 +121,7 @@ Before running this application, make sure you have:
 For direct command-line usage:
 
 ```bash
-python Summary.py
+python persona_generator.py
 ```
 
 Enter the Reddit username when prompted.
@@ -130,7 +130,7 @@ Enter the Reddit username when prompted.
 
 ```
 reddit-persona-generator/
-├── Summary.py               # Core analysis logic                  
+├── persona_generator.py               # Core analysis logic                  
 ├── app/
 │   └── main.py              # FastAPI web application
 │   └── templates/
@@ -160,7 +160,7 @@ reddit-persona-generator/
 
 ### Customization
 
-- **Data Limits**: By default, the app fetches 100 recent posts and comments. Modify in `Summary.py`:
+- **Data Limits**: By default, the app fetches 100 recent posts and comments. Modify in `persona_generator.py`:
   ```python
   posts = list(redditor.submissions.new(limit=100))
   comments = list(redditor.comments.new(limit=100))
