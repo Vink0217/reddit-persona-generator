@@ -130,13 +130,15 @@ Enter the Reddit username when prompted.
 
 ```
 reddit-persona-generator/
-├── main.py              # FastAPI web application
-├── Summary.py           # Core analysis logic
+├── Summary.py           # Core analysis logic                  
+├── app/
+│   ├──main.py            # FastAPI web application
+│   ├── templates/
+│       ├── index.html       # Home page template
+│       └── combined.html    # Persona display template  
 ├── requirements.txt     # Python dependencies
 ├── .env                 # Environment variables (create this)
-├── templates/
-│   ├── index.html       # Home page template
-│   └── combined.html    # Persona display template
+│   
 ├── sample_users/        # Sample persona analyses
 │   └── sample_user_analysis.txt
 └── README.md           # This file
