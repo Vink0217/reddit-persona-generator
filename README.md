@@ -130,18 +130,20 @@ Enter the Reddit username when prompted.
 
 ```
 reddit-persona-generator/
-├── Summary.py           # Core analysis logic                  
+├── Summary.py               # Core analysis logic                  
 ├── app/
-│   ├──main.py            # FastAPI web application
-│   ├── templates/
+│   └── main.py              # FastAPI web application
+│   └── templates/
 │       ├── index.html       # Home page template
 │       └── combined.html    # Persona display template  
-├── requirements.txt     # Python dependencies
-├── .env                 # Environment variables (create this)
-│   
-├── sample_users/        # Sample persona analyses
-│   └── sample_user_analysis.txt
-└── README.md           # This file
+├── requirements.txt         # Python dependencies
+├── .env.example             # Environment variable template
+├── .gitignore               # Git ignore rules
+├── .python-version          # Python version manager file
+├── pyproject.toml           # Project metadata and build system
+├── uv.lock                  # Dependency lock file (used by uv)
+└── README.md                # Project documentation
+
 ```
 
 ## 🔧 Configuration
