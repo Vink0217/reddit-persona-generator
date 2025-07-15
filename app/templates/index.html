@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reddit Persona Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full mx-4">
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Reddit Persona Generator</h1>
+      
+      <!-- Form -->
+      <form method="post" action="/" class="space-y-4" id="personaForm">
+        <input 
+          type="text" 
+          name="reddit_url" 
+          placeholder="https://reddit.com/u/username or just username"
+          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          required
+          id="usernameInput"
+        >
+        <button 
+          type="submit" 
+          class="w-full bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors font-medium"
+          id="submitBtn"
+        >
+          Generate Persona
+        </button>
+      </form>
+
+      <!-- Loading Indicator -->
+      <div id="loadingIndicator" class="hidden mt-6 text-center">
+        <div class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-orange-600 bg-orange-100">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-orange-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Generating persona...
+        </div>
+        <p class="text-sm text-gray-600 mt-2">This may take a few moments</p>
+      </div>
+
+      <!-- Error Message -->
+      {% if error %}
+        <div class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center">
+          {{ error }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('personaForm').addEventListener('submit', function(e) {
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      const submitBtn = document.getElementById('submitBtn');
+      const usernameInput = document.getElementById('usernameInput');
+      
+      // Show loading indicator
+      loadingIndicator.classList.remove('hidden');
+      
+      // Disable form elements (but don't disable input until after submission)
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Generating...';
+      submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      
+      // Small delay to allow form submission, then disable input
+      setTimeout(() => {
+        usernameInput.disabled = true;
+      }, 100);
+    });
+  </script>
+</body>
+</html>

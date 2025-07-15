@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reddit Persona Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+  <div class="max-w-6xl mx-auto px-4">
+    
+    <!-- Header and Form Section -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Reddit Persona Generator</h1>
+      
+      <!-- Form -->
+      <form method="post" action="/" class="max-w-md mx-auto" id="personaForm">
+        <div class="flex flex-col space-y-4">
+          <input 
+            type="text" 
+            name="reddit_url" 
+            placeholder="https://reddit.com/u/username or just username"
+            class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            required
+            id="usernameInput"
+            {% if success and username %}value="{{ username }}"{% endif %}
+          >
+          <div class="flex space-x-2">
+            <button 
+              type="submit" 
+              class="flex-1 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors font-medium"
+              id="submitBtn"
+            >
+              Generate Persona
+            </button>
+            {% if success and username %}
+            <button 
+              type="submit" 
+              formaction="/refresh"
+              class="px-4 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium"
+              id="refreshBtn"
+            >
+              🔄 Refresh
+            </button>
+            {% endif %}
+          </div>
+        </div>
+      </form>
+
+      <!-- Loading Indicator -->
+      <div id="loadingIndicator" class="hidden mt-6 text-center">
+        <div class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-orange-600 bg-orange-100">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-orange-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Generating persona...
+        </div>
+        <p class="text-sm text-gray-600 mt-2">This may take a few moments</p>
+      </div>
+
+      <!-- Error Message -->
+      {% if error %}
+        <div class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center">
+          {{ error }}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Persona Dashboard -->
+    {% if success and persona %}
+    <div class="bg-white shadow-xl rounded-2xl p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- LEFT PANEL -->
+        <div class="space-y-6">
+          <div class="border-b pb-4">
+            <h2 class="text-3xl font-bold text-orange-600 mb-2">
+              {{ persona.get("name", {}).get("value", "Unnamed Persona") }}
+            </h2>
+            <div class="space-y-1 text-sm text-gray-600">
+              <p><strong>Username:</strong> {{ username or "N/A" }}</p>
+              <p><strong>Account Age:</strong> {{ persona.get("account_age_days", "N/A") }} days</p>
+              <p><strong>Link Karma:</strong> {{ persona.get("link_karma", "N/A") }}</p>
+              <p><strong>Comment Karma:</strong> {{ persona.get("comment_karma", "N/A") }}</p>
+            </div>
+          </div>
+
+          <!-- Basic Info Grid -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-sm text-gray-500">Age</p>
+              <p class="font-medium">{{ persona.get("age", {}).get("value", "Unknown") }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Occupation</p>
+              <p class="font-medium">{{ persona.get("occupation", {}).get("value", "Unknown") }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Status</p>
+              <p class="font-medium">{{ persona.get("status", {}).get("value", "Unknown") }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Location</p>
+              <p class="font-medium">{{ persona.get("location", {}).get("value", "Unknown") }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Tier</p>
+              <p class="font-medium">{{ persona.get("tier", {}).get("value", "Unknown") }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Archetype</p>
+              <p class="font-medium">{{ persona.get("archetype", {}).get("value", "Unknown") }}</p>
+            </div>
+          </div>
+
+          <!-- Personality Traits -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-3">Personality Traits</h3>
+            <div class="flex flex-wrap gap-2">
+              {% for trait in persona.get("personality", {}).get("value", []) %}
+                <span class="px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-sm font-medium">
+                  {{ trait }}
+                </span>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Feelings Section -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-3">Emotional Profile</h3>
+            {% set feelings = persona.get("feelings", {}) %}
+            {% if feelings %}
+              <div class="space-y-3">
+                {% for feeling, data in feelings.items() %}
+                  <div>
+                    <div class="flex justify-between text-sm mb-1">
+                      <span class="capitalize font-medium">{{ feeling }}</span>
+                      <span class="text-gray-600">{{ data.get("score", 0) }}/100</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                      <div class="bg-gradient-to-r from-orange-400 to-orange-600 h-2 rounded-full transition-all duration-300" 
+                           style="width: {{ (data.get('score') or 0) | int }}%">
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-gray-500 italic">No emotional data available</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="space-y-6">
+          {% for section in ["motivations", "behaviour_and_habits", "frustrations", "goals_and_needs"] %}
+            <div class="bg-gray-50 rounded-lg p-4">
+              <h3 class="text-lg font-semibold text-gray-800 mb-3 capitalize">
+                {{ section.replace('_', ' ') }}
+              </h3>
+              {% if persona.get(section, {}).get("value") %}
+                <ul class="space-y-2">
+                  {% for item in persona.get(section, {}).get("value", []) %}
+                    <li class="flex items-start">
+                      <span class="text-orange-500 mr-2 mt-1">•</span>
+                      <span class="text-gray-700">{{ item }}</span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="text-gray-500 italic">No data available</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <script>
+    document.getElementById('personaForm').addEventListener('submit', function(e) {
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      const submitBtn = document.getElementById('submitBtn');
+      const refreshBtn = document.getElementById('refreshBtn');
+      const usernameInput = document.getElementById('usernameInput');
+      
+      // Show loading indicator
+      loadingIndicator.classList.remove('hidden');
+      
+      // Disable form elements (but don't disable input until after submission)
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Generating...';
+      submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      
+      if (refreshBtn) {
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = '🔄 Refreshing...';
+        refreshBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+      
+      // Small delay to allow form submission, then disable input
+      setTimeout(() => {
+        usernameInput.disabled = true;
+      }, 100);
+    });
+  </script>
+</body>
+</html>

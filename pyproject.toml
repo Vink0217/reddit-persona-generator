@@ -1,0 +1,12 @@
+[project]
+name = "reddit-persona"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "praw>=7.8.1",
+    "python-dotenv>=1.1.1",
+    "pymongo>=4.13.2",
+    "google-generativeai>=0.8.5",
+]
