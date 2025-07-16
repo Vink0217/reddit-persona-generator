@@ -143,8 +143,8 @@ reddit-persona-generator/
 ├── pyproject.toml # Project metadata and build system
 ├── uv.lock # Dependency lock file (used by uv)
 ├── sample_users/ # Sample output persona files
-│ ├── kojed.txt # Sample analysis output for Reddit user 'kojed'
-│ └── Hungry-Move-6603.txt 
+│ ├── kojed # Sample analysis output for Reddit user 'kojed'
+│ └── Hungry-Move-6603 
 └── README.md # Project documentation
 
 ```
