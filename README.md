@@ -130,21 +130,25 @@ Enter the Reddit username when prompted.
 
 ```
 reddit-persona-generator/
-├── persona_generator.py               # Core analysis logic                  
+├── persona_generator.py # Core analysis logic
 ├── app/
-│   └── main.py              # FastAPI web application
-│   └── templates/
-│       ├── index.html       # Home page template
-│       └── combined.html    # Persona display template  
-├── requirements.txt         # Python dependencies
-├── .env.example             # Environment variable template
-├── .gitignore               # Git ignore rules
-├── .python-version          # Python version manager file
-├── pyproject.toml           # Project metadata and build system
-├── uv.lock                  # Dependency lock file (used by uv)
-└── README.md                # Project documentation
+│ └── main.py # FastAPI web application
+│ └── templates/
+│ ├── index.html # Home page template
+│ └── combined.html # Persona display template
+├── requirements.txt # Python dependencies
+├── .env.example # Environment variable template
+├── .gitignore # Git ignore rules
+├── .python-version # Python version manager file
+├── pyproject.toml # Project metadata and build system
+├── uv.lock # Dependency lock file (used by uv)
+├── sample_users/ # Sample output persona files
+│ ├── kojed.txt # Sample analysis output for Reddit user 'kojed'
+│ └── Hungry-Move-6603.txt 
+└── README.md # Project documentation
 
 ```
++ You can find real examples in the `sample_users/` directory. Each file corresponds to a specific Reddit user’s persona analysis.
 
 ## 🔧 Configuration
 
